@@ -1,149 +1,540 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate Beshy messages with customizable emojis - A fun text generator">
+  <title>Beshy Generator - Create Fun Messages</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="1f938-2640.ico" type="image/x-icon">
-
   <script src="https://kit.fontawesome.com/e929833113.js" crossorigin="anonymous"></script>
+  
   <style type="text/css">
-      @keyframes typing {
-          from { width: 0; }
-          to { width: 100%; }
-        }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
 
-        @keyframes backspacing {
-          from { width: 0; }
-          to { width: 100%; }
-        }
+    @keyframes backspacing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
 
-        .typing-animation {
-          animation: typing 10s steps(40), backspacing 5s steps(40) infinite;
-          white-space: nowrap;
-          overflow: hidden;
-          border-right: 3px solid #000; /* Optional: Mimics cursor blinking */
-        }
+    .typing-animation {
+      animation: typing 3s steps(40), backspacing 1.5s steps(40) infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #10b981;
+    }
 
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bounce-in {
+      animation: bounceIn 0.6s ease-out;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .emoji-preview {
+      transition: transform 0.2s ease;
+    }
+
+    .emoji-preview:hover {
+      transform: scale(1.2);
+    }
+
+    .copy-success {
+      animation: copySuccess 0.3s ease-out;
+    }
+
+    @keyframes copySuccess {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); background-color: #10b981; }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
-<body class="bg-emerald-900">
-    <section>
-        <div class="flex justify-center items-center h-screen">
-            <div class="w-[500px] h-[500px] rounded-lg flex justify-center items-center bg-white bg-opacity-46">
-                <div class="w-[300px]">
-                <h1 id="typing-heading" class="italic text-3xl mb-4">Type na <span class="font-bold">Besshhyy🤸</span></h1>
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="text-center py-6 px-4">
+        <h1 id="typing-heading" class="text-white text-2xl md:text-4xl font-bold mb-2 fade-in">
+            Type na <span class="text-yellow-300">Besshhyy</span><span class="emoji-preview">🤸</span>
+        </h1>
+        <p class="text-emerald-100 text-sm md:text-base">Create fun messages with customizable emojis!</p>
+    </header>
 
-                    <form>
-
-                        <div class="flex">
-                        <input type="text" id="inputText" name="inputText" placeholder="Enter your Besshy Text..." required class="w-full px-4 py-2 mb-4 border rounded" oninput="updateTextarea(this.value)">
-
-
-
- 
-                        </div>
-                        <div class="relative">
-                            <select id="emojiSelect" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onchange="updateEmoji();">
-                                <option value="🤸🏻‍♀️">🤸🏻‍♀️</option>
-                                <option value="🤸🏼‍♀️">🤸🏼‍♀️</option>
-                                <option value="🤸🏽‍♀️">🤸🏽‍♀️</option>
-                                <option value="🤸🏾‍♀️">🤸🏾‍♀️</option>
-                                <option value="🤸🏿‍♀️">🤸🏿‍♀️</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path d="M10 12.984l-5.547-5.531L4.359 6.47 10 12.14l5.641-5.641 1.547 1.547L10 12.985z"/>
-                                </svg>
-                            </div>
-                       </div>
-
-                    </form>
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 pb-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Card Container -->
+            <div class="glass-effect rounded-2xl p-6 md:p-8 shadow-2xl bounce-in">
                 
-                    <div class="inline-block items-center">
-                        <label for="outputText" class="block mb-1">Message:</label>
-                        <textarea id="outputText" name="outputText" rows="4" cols="30" readonly  class="w-full h-[120px] resize-none px-4 py-2 mb-4 border rounded shadow-lg"></textarea>
+                <!-- Input Section -->
+                <div class="mb-6">
+                    <label for="inputText" class="block text-white text-sm font-medium mb-2">
+                        <i class="fas fa-keyboard mr-2"></i>Enter your text:
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="inputText" 
+                            name="inputText" 
+                            placeholder="Type your message here..." 
+                            required 
+                            class="w-full px-4 py-3 bg-white/90 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200 text-gray-800 placeholder-gray-500"
+                            oninput="updateTextarea(this.value)"
+                            autocomplete="off"
+                        >
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                            <i class="fas fa-pen text-emerald-600"></i>
+                        </div>
+                    </div>
+                </div>
 
-                        <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full" onclick="copyToClipboard();">
-                            Copy
+                <!-- Emoji Selection -->
+                <div class="mb-6">
+                    <label for="emojiSelect" class="block text-white text-sm font-medium mb-2">
+                        <i class="fas fa-smile mr-2"></i>Choose your emoji:
+                    </label>
+                    <div class="relative">
+                        <select 
+                            id="emojiSelect" 
+                            class="block appearance-none w-full bg-white/90 border border-emerald-200 text-gray-700 py-3 px-4 pr-10 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" 
+                            onchange="updateEmoji()"
+                            aria-label="Select emoji"
+                        >
+                            <option value="🤸🏻‍♀️">🤸🏻‍♀️ Light Skin Tone</option>
+                            <option value="🤸🏼‍♀️">🤸🏼‍♀️ Medium-Light Skin Tone</option>
+                            <option value="🤸🏽‍♀️">🤸🏽‍♀️ Medium Skin Tone</option>
+                            <option value="🤸🏾‍♀️">🤸🏾‍♀️ Medium-Dark Skin Tone</option>
+                            <option value="🤸🏿‍♀️">🤸🏿‍♀️ Dark Skin Tone</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="mb-6">
+                    <label for="outputText" class="block text-white text-sm font-medium mb-2">
+                        <i class="fas fa-magic mr-2"></i>Generated Message:
+                    </label>
+                    <div class="relative">
+                        <textarea 
+                            id="outputText" 
+                            name="outputText" 
+                            rows="4" 
+                            readonly  
+                            class="w-full px-4 py-3 bg-white/90 border border-emerald-200 rounded-lg shadow-inner resize-none text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            placeholder="Your generated message will appear here..."
+                            aria-label="Generated message output"
+                        ></textarea>
+                        <div class="absolute top-3 right-3">
+                            <button 
+                                id="clearBtn"
+                                onclick="clearAll()" 
+                                class="text-gray-400 hover:text-red-500 transition-colors duration-200"
+                                title="Clear all"
+                                aria-label="Clear all text"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <button 
+                        id="copyBtn"
+                        onclick="copyToClipboard()" 
+                        class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                        aria-label="Copy generated message to clipboard"
+                    >
+                        <i class="fas fa-copy mr-2"></i>
+                        <span id="copyText">Copy Message</span>
+                    </button>
+                    
+                    <button 
+                        onclick="shareMessage()" 
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                        aria-label="Share message"
+                    >
+                        <i class="fas fa-share mr-2"></i>
+                        Share
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mb-6">
+                    <p class="text-white text-sm font-medium mb-3">
+                        <i class="fas fa-bolt mr-2"></i>Quick Actions:
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <button 
+                            onclick="addSampleText('Hello World')" 
+                            class="bg-white/20 hover:bg-white/30 text-white text-xs px-3 py-1 rounded-full transition-all duration-200"
+                        >
+                            Sample Text
+                        </button>
+                        <button 
+                            onclick="addSampleText('Good Morning')" 
+                            class="bg-white/20 hover:bg-white/30 text-white text-xs px-3 py-1 rounded-full transition-all duration-200"
+                        >
+                            Good Morning
+                        </button>
+                        <button 
+                            onclick="addSampleText('How are you')" 
+                            class="bg-white/20 hover:bg-white/30 text-white text-xs px-3 py-1 rounded-full transition-all duration-200"
+                        >
+                            How are you
                         </button>
                     </div>
-                
-                    <div class="p-2">
-                        <p>Programming Tools Used:</p> 
-                        <div class="flex items-center justify-center gap-4">
-                            <i class="fa-brands fa-html5 text-orange-500 text-5xl"></i>
-                            <i class="fa-brands fa-square-js text-yellow-500 text-5xl"></i>
-                            <i class="fa-brands fa-css3-alt text-blue-800 text-5xl"></i> 
-                        </div>
-                    </div>
-                
-                    <footer class="text-center text-gray-500 text-sm mt-2">
-                        <p>&copy; Janzen Forrest Dela Cruz.</p>
-                    </footer>
                 </div>
-                
+
+                <!-- Tech Stack -->
+                <div class="text-center">
+                    <p class="text-white text-sm font-medium mb-3">
+                        <i class="fas fa-code mr-2"></i>Built with:
+                    </p> 
+                    <div class="flex items-center justify-center gap-4">
+                        <i class="fa-brands fa-html5 text-orange-500 text-3xl md:text-4xl hover:scale-110 transition-transform duration-200" title="HTML5"></i>
+                        <i class="fa-brands fa-square-js text-yellow-500 text-3xl md:text-4xl hover:scale-110 transition-transform duration-200" title="JavaScript"></i>
+                        <i class="fa-brands fa-css3-alt text-blue-500 text-3xl md:text-4xl hover:scale-110 transition-transform duration-200" title="CSS3"></i>
+                        <i class="fab fa-tailwind text-cyan-500 text-3xl md:text-4xl hover:scale-110 transition-transform duration-200" title="Tailwind CSS"></i>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-emerald-100 text-sm py-4 px-4">
+        <p>&copy; 2024 Janzen Forrest Dela Cruz. Made with <i class="fas fa-heart text-red-500"></i></p>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="toastMessage">Message copied to clipboard!</span>
+        </div>
+    </div>
 
     <script>
+        // Global variables
+        let isTypingAnimationActive = true;
+        let autoSaveTimeout;
+
         // Wait for the DOM to be ready
         document.addEventListener("DOMContentLoaded", function() {
-          var heading = document.getElementById("typing-heading");
+            const heading = document.getElementById("typing-heading");
+            const inputText = document.getElementById("inputText");
+            
+            // Start typing animation
+            heading.classList.add("typing-animation");
+            
+            // Stop typing animation after 10 seconds
+            setTimeout(() => {
+                heading.classList.remove("typing-animation");
+                isTypingAnimationActive = false;
+            }, 10000);
 
-
-          heading.classList.add("typing-animation");
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+            
+            // Auto-save functionality
+            inputText.addEventListener('input', debounceAutoSave);
+            
+            // Load saved data
+            loadSavedData();
+            
+            // Add focus to input on page load
+            inputText.focus();
         });
 
-        function updateTextarea(value) {
-          var emojiSelect = document.getElementById("emojiSelect");
-          var selectedEmoji = emojiSelect.options[emojiSelect.selectedIndex].value;
-
-          var outputText = value.split(" ").map(function(word) {
-            return word + " " + selectedEmoji;
-          }).join(" ");
-
-          document.getElementById("outputText").value = outputText.trim();
+        // Keyboard shortcuts
+        function handleKeyboardShortcuts(e) {
+            // Ctrl/Cmd + Enter to copy
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                copyToClipboard();
+            }
+            
+            // Ctrl/Cmd + K to clear
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                clearAll();
+            }
+            
+            // Escape to clear focus
+            if (e.key === 'Escape') {
+                document.activeElement.blur();
+            }
         }
 
+        // Debounced auto-save
+        function debounceAutoSave() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(saveData, 1000);
+        }
 
-        function updateEmoji() {
-            var emojiSelect = document.getElementById("emojiSelect");
-            var selectedEmoji = emojiSelect.options[emojiSelect.selectedIndex].value;
-            var outputText = document.getElementById("outputText").value;
-            var words = outputText.split(" ");
-            var updatedOutputText = "";
+        // Save data to localStorage
+        function saveData() {
+            const inputText = document.getElementById("inputText").value;
+            const selectedEmoji = document.getElementById("emojiSelect").value;
+            const outputText = document.getElementById("outputText").value;
+            
+            const data = {
+                inputText,
+                selectedEmoji,
+                outputText,
+                timestamp: Date.now()
+            };
+            
+            localStorage.setItem('beshyGeneratorData', JSON.stringify(data));
+        }
 
-            for (var i = 0; i < words.length; i++) {
-                if (words[i].includes("🤸")) {
-                    updatedOutputText += selectedEmoji + " ";
-                } else {
-                    updatedOutputText += words[i] + " ";
+        // Load saved data
+        function loadSavedData() {
+            const savedData = localStorage.getItem('beshyGeneratorData');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    // Only load if data is less than 24 hours old
+                    if (Date.now() - data.timestamp < 24 * 60 * 60 * 1000) {
+                        document.getElementById("inputText").value = data.inputText || '';
+                        document.getElementById("emojiSelect").value = data.selectedEmoji || '🤸🏻‍♀️';
+                        document.getElementById("outputText").value = data.outputText || '';
+                        
+                        if (data.inputText) {
+                            updateTextarea(data.inputText);
+                        }
+                    }
+                } catch (e) {
+                    console.log('Error loading saved data:', e);
                 }
             }
-
-            document.getElementById("outputText").value = updatedOutputText.trim();
         }
 
-        function copyToClipboard() {
-            var outputText = document.getElementById("outputText").value;
-            if (outputText !== "") {
-                var textarea = document.createElement("textarea");
-                textarea.value = outputText;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textarea);
+        // Enhanced updateTextarea function
+        function updateTextarea(value) {
+            const emojiSelect = document.getElementById("emojiSelect");
+            const selectedEmoji = emojiSelect.options[emojiSelect.selectedIndex].value;
+            
+            if (!value.trim()) {
+                document.getElementById("outputText").value = '';
+                return;
+            }
 
-                // Change button text to "Copied!" for 3 seconds
-                var copyButton = document.querySelector(".bg-green-600");
-                copyButton.innerHTML = "Copied!";
-                setTimeout(function () {
-                    copyButton.innerHTML = "Copy";
-                }, 3000);
+            const outputText = value.split(" ").map(function(word) {
+                return word + " " + selectedEmoji;
+            }).join(" ");
+
+            document.getElementById("outputText").value = outputText.trim();
+            
+            // Auto-save
+            debounceAutoSave();
+        }
+
+        // Enhanced updateEmoji function
+        function updateEmoji() {
+            const emojiSelect = document.getElementById("emojiSelect");
+            const selectedEmoji = emojiSelect.options[emojiSelect.selectedIndex].value;
+            const inputText = document.getElementById("inputText").value;
+            
+            if (inputText.trim()) {
+                updateTextarea(inputText);
+            }
+            
+            // Auto-save
+            debounceAutoSave();
+        }
+
+        // Enhanced copyToClipboard function
+        async function copyToClipboard() {
+            const outputText = document.getElementById("outputText").value;
+            const copyBtn = document.getElementById("copyBtn");
+            const copyText = document.getElementById("copyText");
+            
+            if (!outputText.trim()) {
+                showToast("No message to copy!", "warning");
+                return;
+            }
+
+            try {
+                // Use modern clipboard API if available
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(outputText);
+                } else {
+                    // Fallback for older browsers
+                    const textarea = document.createElement("textarea");
+                    textarea.value = outputText;
+                    textarea.style.position = "fixed";
+                    textarea.style.opacity = "0";
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
+                }
+                
+                // Visual feedback
+                copyBtn.classList.add("copy-success");
+                copyText.textContent = "Copied!";
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove("copy-success");
+                    copyText.textContent = "Copy Message";
+                }, 2000);
+                
+                showToast("Message copied to clipboard!", "success");
+                
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                showToast("Failed to copy message", "error");
             }
         }
+
+        // Share message function
+        async function shareMessage() {
+            const outputText = document.getElementById("outputText").value;
+            
+            if (!outputText.trim()) {
+                showToast("No message to share!", "warning");
+                return;
+            }
+
+            const shareData = {
+                title: "Beshy Message",
+                text: outputText,
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                    showToast("Message shared successfully!", "success");
+                } else {
+                    // Fallback: copy to clipboard
+                    await copyToClipboard();
+                    showToast("Message copied to clipboard for sharing!", "info");
+                }
+            } catch (err) {
+                console.error('Error sharing:', err);
+                showToast("Failed to share message", "error");
+            }
+        }
+
+        // Clear all function
+        function clearAll() {
+            document.getElementById("inputText").value = '';
+            document.getElementById("outputText").value = '';
+            document.getElementById("inputText").focus();
+            
+            // Clear saved data
+            localStorage.removeItem('beshyGeneratorData');
+            
+            showToast("All cleared!", "info");
+        }
+
+        // Add sample text function
+        function addSampleText(text) {
+            const inputText = document.getElementById("inputText");
+            inputText.value = text;
+            updateTextarea(text);
+            inputText.focus();
+            
+            showToast(`Added "${text}"`, "info");
+        }
+
+        // Toast notification system
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+            
+            // Set message and type
+            toastMessage.textContent = message;
+            
+            // Remove existing type classes
+            toast.classList.remove("bg-green-600", "bg-red-600", "bg-yellow-600", "bg-blue-600");
+            
+            // Add appropriate type class
+            switch (type) {
+                case "success":
+                    toast.classList.add("bg-green-600");
+                    break;
+                case "error":
+                    toast.classList.add("bg-red-600");
+                    break;
+                case "warning":
+                    toast.classList.add("bg-yellow-600");
+                    break;
+                case "info":
+                    toast.classList.add("bg-blue-600");
+                    break;
+                default:
+                    toast.classList.add("bg-green-600");
+            }
+            
+            // Show toast
+            toast.classList.remove("translate-x-full");
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add("translate-x-full");
+            }, 3000);
+        }
+
+        // Character counter (optional enhancement)
+        function updateCharacterCount() {
+            const inputText = document.getElementById("inputText").value;
+            const maxLength = 200; // Set a reasonable limit
+            
+            if (inputText.length > maxLength) {
+                document.getElementById("inputText").value = inputText.substring(0, maxLength);
+                showToast(`Message truncated to ${maxLength} characters`, "warning");
+            }
+        }
+
+        // Add character counter to input
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputText = document.getElementById("inputText");
+            inputText.addEventListener('input', updateCharacterCount);
+        });
+
+        // Prevent form submission
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                });
+            }
+        });
     </script>
 </body>
 </html>
